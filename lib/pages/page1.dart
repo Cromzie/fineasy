@@ -29,10 +29,9 @@ class Page1 extends StatefulWidget {
 class _Page1State extends State<Page1> {
   final _keY = GlobalKey<FormState>();
   bool isNotVisible = true;
-  String ? _email = '';
+  String? _email = '';
   String _password = '';
 
-//  eMAIL => _email;
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +121,13 @@ class _Page1State extends State<Page1> {
   _emailFormField() => Container(
         margin: EdgeInsets.symmetric(horizontal: 40.0),
         child: TextFormField(
-          onSaved: (String ? email) => _email = email,
+          onSaved: (String? email) => _email = email,
           autofillHints: [AutofillHints.email],
           validator: (String? email) =>
               email != null && email.contains('@gmail.com')
-                  ? 'Enter a valid email address without @gmail.com'
-                  : email == null
-                      ? 'You are yet to enter your email'
-                      : null,
+                  ? null
+                  : 'You are yet to enter your email',
+                
           style: TextStyle(color: kLabelColor, fontFamily: 'Super'),
           keyboardType: TextInputType.emailAddress,
           cursorColor: kGold,
@@ -156,7 +154,7 @@ class _Page1State extends State<Page1> {
         child: TextFormField(
           onSaved: (String? password) => password = _password,
           validator: (String? password) =>
-              password == null && password!.length < 6
+              password == null || password.length < 6
                   ? 'Incorrect password'
                   : null,
           style: TextStyle(color: kLabelColor, fontFamily: 'Super'),
@@ -213,17 +211,16 @@ class _Page1State extends State<Page1> {
               height: 50.0,
               child: TextButton(
                 onPressed: () {
-                  if (_keY.currentState!.validate()) {
-                    // return;
+                  var valid = _keY.currentState!.validate();
+                  // print(valid); 
+                  if (valid) {
                     _keY.currentState!.save();
-                    print('Here: $_email');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => Page2Login(eMAIL: '$_email'),
                         ));
-                  } else {
-                    return null;
+                    print('Here: $_email');
                   }
                 },
                 child: TexT(
